@@ -16,13 +16,13 @@ while n < N:
         diff = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
         if cv2.countNonZero(diff) > 10000:
             # filename is date and time
-            filename = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%f') + 'frame_{n}.jpg'
+            filename = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S-%f') + f'frame_{n}.jpg'
             # save to data folder
             cv2.imwrite('data/' + filename, frame)
             n += 1
-            prev_frame = frame
-    else:
-        prev_frame = frame
+    prev_frame = frame
     cv2.imshow('frame', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
+
+cv2.destroyAllWindows()
