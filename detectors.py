@@ -16,12 +16,10 @@ class BabyDetector:
         if not self.onnx:
             result = self.model(frame, verbose=False)[0]
             if len(result) == 0:
-                # return none with a message of no detection
                 return None
 
             sz = 10000000
             smallest = None
-            # tensor to list
             for r in result:
                 res = r.boxes.data.tolist()
                 raw_roi = res
@@ -34,7 +32,6 @@ class BabyDetector:
 
             self.roi = smallest
         else:
-            # if onnx
             roi = self.model.predict(frame, conf=self.conf, imgsz=(320, 320), verbose = False)
             try:
                 conf = roi[0].boxes.conf.numpy()[0]
@@ -50,6 +47,7 @@ class BabyDetector:
             return roi, conf
 
     def show(self, frame):
-        cv2.rectangle(frame, (self.roi[0], self.roi[1]), (self.roi[0]+self.roi[2], self.roi[1]+self.roi[3]), (0, 0, 255), 2)
+        if self.roi is not None:
+            cv2.rectangle(frame, (self.roi[0], self.roi[1]), (self.roi[0]+self.roi[2], self.roi[1]+self.roi[3]), (0, 0, 255), 2)
         plt.imshow(frame)
         plt.show()

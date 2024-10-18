@@ -141,3 +141,4 @@ while True:
 cap.release()
 # close all figs
 plt.close('all')
+cv2.destroyAllWindows()
